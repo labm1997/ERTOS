@@ -6,17 +6,21 @@ BINDIR = bin
 INC = clock.h task.h task_fifo.h
 
 OBJ = clock.o task_fifo.o
-SRC = clock.c ertos.c task_fifo.c
 
 OBJECTS=$(patsubst %,$(OBJDIR)/%,$(OBJ))
 HEADERS=$(patsubst %,$(INCDIR)/%,$(INC))
 
-$(BINDIR)/ertos: $(OBJECTS)
-	msp430-gcc -mmcu=msp430f5529 -g -o $@ $^ -I $(INCDIR)
+$(BINDIR)/ertos: $(OBJECTS) $(SRCDIR)/ertos.c | $(BINDIR)
+	msp430-gcc -mmcu=msp430f5529 -g -o $@ $(SRCDIR)/ertos.c $(OBJECTS) -I $(INCDIR)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
 	msp430-gcc -mmcu=msp430f5529 -g -c -o $@ $< -I $(INCDIR)
 
+$(BINDIR):
+	mkdir $(BINDIR)
+
+$(OBJDIR):
+	mkdir $(OBJDIR)
+
 clean:
-	rm $(OBJDIR)/*.o
-	rm $(BINDIR)/ertos
+	rm $(OBJDIR) $(BINDIR) -Rf
