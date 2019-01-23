@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define DEFAULT_QUANTUM 1
+#define DEFAULT_QUANTUM 100
 
 typedef enum {
     READY,

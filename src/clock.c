@@ -96,4 +96,3 @@ void clockInit () {
               SELM__XT2CLK;                 // MCLK  = Crystal 2  =>  1.000.000 Hz
 }
 
-
